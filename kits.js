@@ -29,6 +29,7 @@ kits.randomInt = function (n, m) {
 }
 
 kits.randomColor = function () {
+  kits.randomInt()
   var r = radomInt(0, 255);
   var g = randonInt(0, 255);
   var b = randomInt(0, 255);
