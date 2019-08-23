@@ -103,7 +103,7 @@
   let text = document.querySelector(".weibo-text")
   let ul = document.querySelector(".weibo-list")
 
-  //把数据从本地存储中读取
+  //3把数据从本地存储中读取
   let datas = localStorage.getItem("wbshuju")
   // console.log(datas)
   datas = JSON.parse(datas)
@@ -119,7 +119,7 @@
     ul.appendChild(li)
   });
   // 该数组用于存储新增的数据
-  // var datas = [];
+  // 1.var datas = [];
 
   btn.onclick = function () {
     // console.log(23)
@@ -131,10 +131,12 @@
 
     let time = kits.formatDate();
     // console.log(time)
+    // 生成新的id
+    let id = kits.getId()
     // 生成新的li
     let li = document.createElement("li");
     li.innerHTML = '<p class="content">' + content + '</p>'
-      + '<span class="del">删除</span>' + '<span class=time>' + time + '</span>';
+      + '<span class="del"data-id="' + id + '">删除</span>' + '<span class=time>' + time + '</span>';
     // 插入到ul最前面
     ul.insertBefore(li, ul.children[0])
     //把文本域清空
@@ -151,6 +153,8 @@
        每次点击就是一个新的对象，放到数组里面，把数组存到本地存储里面即可
    */
     let obj = {
+      // 需要一个id以便在删除的时候能够找到这条数据
+      id: id,
       content: content,
       time: time
     }
@@ -164,10 +168,30 @@
 
   // 4实现删除
   ul.addEventListener('click', function (e) {
+
     if (e.target.classList.contains("del")) {
       ul.removeChild(e.target.parentNode)
+      // 删除数据常见方法：给数据设置一个不会重置的id
+      // 需要在生成数据的时候先给id，
+      // 然后在生成结构的时候,把id存储到删除这个span的自定义属性身上
+
+      // 获取点击的删除身上的id
+      let id = e.target.dataset.id;
+      // console.log(id)
+      // 5把本地存储中对应的数据删除
+      // 先从datas数组里面把对应的数据删除
+      datas.forEach(function (e, i) {
+        if (e.id == id) {
+          // 数组.splice(从哪里开始删除，删除多少个);
+          datas.splice(i, 1);
+        }
+      });
+      console.log(datas)
+      // 把新的datas覆盖回本地存储里面
+      let json = JSON.stringify(datas);
+      localStorage.setItem("wbshuju", json);
     }
-  })
+  });
 </script>
 
 </html>

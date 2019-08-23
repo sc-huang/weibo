@@ -28,6 +28,17 @@ kits.randomInt = function (n, m) {
   return Math.floor(Math.random() * (m - n + 1) + n);
 }
 
+
+kits.randomHexColor = function () {
+  var arr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b', 'c', 'd', 'e', 'f']
+  var color = '#'
+  for (i = 0; i < 6; i++) {
+    color += arr[Math.floor(Math.random() * 16)]
+  }
+  return color
+
+}
+
 kits.randomColor = function () {
   kits.randomInt()
   var r = radomInt(0, 255);
